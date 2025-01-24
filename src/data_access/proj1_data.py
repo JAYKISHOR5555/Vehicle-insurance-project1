@@ -47,6 +47,7 @@ class Proj1Data:
             # Convert collection data to DataFrame and preprocess
             print("Fetching data from mongoDB")
             df = pd.DataFrame(list(collection.find()))
+            print("Fetched data from mongoDB")
             print(f"Data fecthed with len: {len(df)}")
             if "id" in df.columns.to_list():
                 df = df.drop(columns=["id"], axis=1)
@@ -55,3 +56,42 @@ class Proj1Data:
 
         except Exception as e:
             raise MyException(e, sys)
+        
+        
+        
+# from src.configuration.mongo_db_connection import MongoDBClient
+# from src.constants import DATABASE_NAME
+# from src.exception import MyException
+# import sys
+# import pandas as pd
+# import numpy as np
+
+# class Proj1Data:
+#     def __init__(self) -> None:
+#         try:
+#             print(f"Connecting to MongoDB with database: {DATABASE_NAME}")
+#             self.mongo_client = MongoDBClient(database_name=DATABASE_NAME)
+#             print("MongoDB connection established successfully.")
+#         except Exception as e:
+#             print(f"Error during MongoDB connection: {e}")
+#             raise MyException(e, sys)
+
+#     def export_collection_as_dataframe(self, collection_name: str, database_name: Optional[str] = None) -> pd.DataFrame:
+#         try:
+#             print(f"Exporting collection: {collection_name} from database: {database_name or DATABASE_NAME}")
+#             collection = (
+#                 self.mongo_client.database[collection_name]
+#                 if database_name is None
+#                 else self.mongo_client[database_name][collection_name]
+#             )
+
+#             print("Fetching data from MongoDB...")
+#             df = pd.DataFrame(list(collection.find()))
+#             print(f"Data fetched with {len(df)} records.")
+#             if "id" in df.columns.to_list():
+#                 df = df.drop(columns=["id"], axis=1)
+#             df.replace({"na": np.nan}, inplace=True)
+#             return df
+#         except Exception as e:
+#             print(f"Error during data export: {e}")
+#             raise MyException(e, sys)
